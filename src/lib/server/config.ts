@@ -1,8 +1,13 @@
 import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
+import { building } from '$app/environment';
 import { resolve, join } from 'node:path';
 
-const dataDir = resolve(env.DATA_DIR || '.data');
+const configuredDataDir = env.DATA_DIR || '.data';
+const dataDir = resolve(building ? '.data/build' : configuredDataDir);
+const databasePath = resolve(
+  building ? join(dataDir, 'gestalt.sqlite') : env.DATABASE_PATH || join(dataDir, 'gestalt.sqlite')
+);
 
 const cleanSecret = (value: string | undefined, placeholders: string[] = []) => {
   const trimmed = value?.trim() || '';
@@ -13,7 +18,7 @@ const cleanSecret = (value: string | undefined, placeholders: string[] = []) => 
 
 export const config = {
   dataDir,
-  databasePath: resolve(env.DATABASE_PATH || join(dataDir, 'gestalt.sqlite')),
+  databasePath,
   uploadsDir: join(dataDir, 'uploads'),
   backupsDir: join(dataDir, 'backups'),
   sessionDays: Math.max(1, Number(env.SESSION_DAYS || 30)),
