@@ -30,8 +30,7 @@
           name="code"
           autocomplete="one-time-code"
           inputmode="numeric"
-          pattern="[0-9]{6}"
-          maxlength="6"
+          enterkeyhint="done"
           placeholder="000000"
           required
         />

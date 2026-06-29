@@ -23,7 +23,6 @@ const emailOnly = z.object({
 const codeVerification = emailOnly.extend({
   code: z
     .string()
-    .trim()
     .regex(/^\d{6}$/, 'Введите шестизначный код из письма')
 });
 
@@ -63,6 +62,8 @@ const valuesFromFormData = (data: FormData): RegistrationValues => ({
 
 const userExists = (email: string) =>
   Boolean(sqlite.prepare('SELECT 1 FROM users WHERE email = ?').get(email));
+
+const normalizeVerificationCode = (value: string) => value.replace(/\D/g, '');
 
 const latestPendingRegistration = (email: string, options: { unexpiredOnly: boolean }) =>
   sqlite
@@ -311,7 +312,7 @@ export const actions: Actions = {
     const data = await request.formData();
     const parsed = codeVerification.safeParse({
       email: String(data.get('email') || ''),
-      code: String(data.get('code') || '')
+      code: normalizeVerificationCode(String(data.get('code') || ''))
     });
 
     if (!parsed.success) {
