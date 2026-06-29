@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: gestalt-forum
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATA_DIR
+        value: /var/data
+      - key: DATABASE_PATH
+        value: /var/data/gestalt.sqlite
+      - key: SESSION_DAYS
+        value: "30"
+      - key: ORIGIN
+        sync: false
+      - key: PUBLIC_CLOUDPAYMENTS_PUBLIC_ID
+        sync: false
+      - key: CLOUDPAYMENTS_API_SECRET
+        sync: false
+      - key: CLOUDPAYMENTS_WEBHOOK_SECRET
+        sync: false
+      - key: SEED_ADMIN_EMAIL
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false
+      - key: SEED_ADMIN_PHONE
+        sync: false
+      - key: BACKUP_S3_ENDPOINT
+        sync: false
+      - key: BACKUP_S3_BUCKET
+        sync: false
+      - key: BACKUP_S3_REGION
+        value: us-east-1
+      - key: BACKUP_S3_ACCESS_KEY
+        sync: false
+      - key: BACKUP_S3_SECRET_KEY
+        sync: false
+    disk:
+      name: gestalt-data
+      mountPath: /var/data
+      sizeGB: 1
