@@ -45,6 +45,27 @@ export const sessions = sqliteTable(
   (table) => [index('idx_sessions_user_id').on(table.userId), index('idx_sessions_expires_at').on(table.expiresAt)]
 );
 
+export const emailVerificationCodes = sqliteTable(
+  'email_verification_codes',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    email: text('email').notNull(),
+    phone: text('phone').notNull(),
+    firstName: text('first_name').notNull(),
+    lastName: text('last_name').notNull(),
+    passwordHash: text('pwd_hash').notNull(),
+    codeHash: text('code_hash').notNull(),
+    attempts: integer('attempts').notNull().default(0),
+    expiresAt: text('expires_at').notNull(),
+    consumedAt: text('consumed_at'),
+    createdAt: text('created_at').notNull().default(sql`(datetime('now'))`)
+  },
+  (table) => [
+    index('idx_email_verification_codes_email').on(table.email, table.createdAt),
+    index('idx_email_verification_codes_expiry').on(table.expiresAt)
+  ]
+);
+
 export const volumes = sqliteTable('volumes', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   slug: text('slug').notNull().unique(),

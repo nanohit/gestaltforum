@@ -35,7 +35,7 @@ npm start         # migration + adapter-node server
 
 ## Что реализовано
 
-- регистрация по email/паролю и телефону, Argon2id, серверные сессии, secure cookies;
+- регистрация по email/паролю и телефону с подтверждением шестизначным кодом через Resend, Argon2id, серверные сессии, secure cookies;
 - роли, RBAC, бан и временный mute;
 - материалы, выпуски, FTS5-поиск с `bm25()`, открытый и подписной доступ;
 - читательские выделения, подчёркивания и заметки с re-anchor по quote/prefix/suffix и fallback на offsets;
@@ -60,6 +60,9 @@ npm start         # migration + adapter-node server
 | `DATA_DIR` | Каталог данных; локально `.data`, на Render `/var/data` |
 | `DATABASE_PATH` | Полный путь к SQLite |
 | `SESSION_DAYS` | Срок серверной сессии |
+| `RESEND_API_KEY` | API key Resend; замените `re_xxxxxxxxx` на реальный ключ |
+| `EMAIL_FROM` | Отправитель писем регистрации, например `Gestalt.forum <onboarding@your-domain.ru>` |
+| `REGISTRATION_CODE_MINUTES` | Срок действия кода регистрации; по умолчанию 10 минут |
 | `PUBLIC_CLOUDPAYMENTS_PUBLIC_ID` | Public terminal ID виджета |
 | `CLOUDPAYMENTS_API_SECRET` | API Secret CloudPayments |
 | `CLOUDPAYMENTS_WEBHOOK_SECRET` | Secret для HMAC webhook; fallback на API Secret |
@@ -70,8 +73,9 @@ npm start         # migration + adapter-node server
 1. Создайте сервис через `render.yaml`.
 2. Укажите `ORIGIN=https://ваш-домен`.
 3. Создайте persistent disk с mount path `/var/data`.
-4. Задайте секреты CloudPayments и S3, если используются.
-5. Укажите `SEED_ADMIN_EMAIL` и `SEED_ADMIN_PASSWORD`: при первом старте будет создан администратор. После bootstrap переменные можно удалить; существующий пароль автоматически не меняется.
-6. Включите webhook-и по инструкции в `docs/cloudpayments.md`.
+4. В Render env задайте `RESEND_API_KEY`: замените `re_xxxxxxxxx` на реальный ключ из Resend. Для production лучше заменить `EMAIL_FROM` на адрес с верифицированного домена.
+5. Задайте секреты CloudPayments и S3, если используются.
+6. Укажите `SEED_ADMIN_EMAIL` и `SEED_ADMIN_PASSWORD`: при первом старте будет создан администратор. После bootstrap переменные можно удалить; существующий пароль автоматически не меняется.
+7. Включите webhook-и по инструкции в `docs/cloudpayments.md`.
 
 Приложение намеренно запускается одним процессом. Несколько реплик нельзя направлять в один SQLite-файл.

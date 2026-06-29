@@ -18,6 +18,12 @@ services:
         value: "30"
       - key: ORIGIN
         sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        value: Gestalt.forum <onboarding@resend.dev>
+      - key: REGISTRATION_CODE_MINUTES
+        value: "10"
       - key: PUBLIC_CLOUDPAYMENTS_PUBLIC_ID
         sync: false
       - key: CLOUDPAYMENTS_API_SECRET

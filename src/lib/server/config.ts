@@ -4,12 +4,22 @@ import { resolve, join } from 'node:path';
 
 const dataDir = resolve(env.DATA_DIR || '.data');
 
+const cleanSecret = (value: string | undefined, placeholders: string[] = []) => {
+  const trimmed = value?.trim() || '';
+  if (!trimmed) return '';
+  if (placeholders.includes(trimmed)) return '';
+  return trimmed;
+};
+
 export const config = {
   dataDir,
   databasePath: resolve(env.DATABASE_PATH || join(dataDir, 'gestalt.sqlite')),
   uploadsDir: join(dataDir, 'uploads'),
   backupsDir: join(dataDir, 'backups'),
   sessionDays: Math.max(1, Number(env.SESSION_DAYS || 30)),
+  resendApiKey: cleanSecret(env.RESEND_API_KEY, ['re_xxxxxxxxx']),
+  emailFrom: env.EMAIL_FROM || 'Gestalt.forum <onboarding@resend.dev>',
+  registrationCodeMinutes: Math.max(3, Number(env.REGISTRATION_CODE_MINUTES || 10)),
   cloudPaymentsApiSecret: env.CLOUDPAYMENTS_API_SECRET || '',
   cloudPaymentsWebhookSecret: env.CLOUDPAYMENTS_WEBHOOK_SECRET || env.CLOUDPAYMENTS_API_SECRET || '',
   cloudPaymentsPublicId: publicEnv.PUBLIC_CLOUDPAYMENTS_PUBLIC_ID || '',

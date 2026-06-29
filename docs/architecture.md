@@ -28,7 +28,7 @@ Pragmas:
 - `mmap_size=128 MiB`
 - `temp_store=MEMORY`
 
-Миграция `migrations/0001_init.sql` содержит все таблицы, FK, индексы, FTS5 virtual table и sync-триггеры.
+Миграция `migrations/0001_init.sql` содержит базовые таблицы, FK, индексы, FTS5 virtual table и sync-триггеры. `migrations/0002_email_verification_codes.sql` добавляет pending-регистрации для email-кодов.
 
 FTS хранит `title`, `abstract`, `body_text`; поиск строит безопасное prefix-expression из не более чем восьми токенов и сортирует по `bm25(8, 3, 1)`.
 
@@ -79,6 +79,7 @@ Re-anchor сначала ищет quote с совпавшим контексто
 ## Безопасность
 
 - Argon2id: 19 MiB, 2 прохода, parallelism 1;
+- email-коды регистрации хранятся только как Argon2id-хеш и живут ограниченное время;
 - httpOnly, SameSite=Lax, Secure в production;
 - SvelteKit origin checks для form actions и собственная same-origin проверка JSON API;
 - prepared statements;
