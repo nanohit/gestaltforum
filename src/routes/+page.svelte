@@ -96,6 +96,7 @@
     align-items: center;
     gap: 3rem;
     overflow: hidden;
+    position: relative;
   }
 
   .hero-copy {
@@ -117,6 +118,7 @@
     aspect-ratio: 1;
     display: grid;
     place-items: center;
+    min-width: 0;
   }
 
   .hero-orbit span {
@@ -259,16 +261,55 @@
     .hero {
       grid-template-columns: 1fr;
       min-height: auto;
+      padding: clamp(4rem, 13vw, 5.8rem) 1.5rem clamp(6rem, 22vw, 8rem);
+      gap: 1.8rem;
+    }
+
+    .hero h1 {
+      max-width: 10.5ch;
+    }
+
+    .hero .lede {
+      margin: 1.35rem 0 1.55rem;
+      max-width: 28rem;
     }
 
     .hero-orbit {
-      max-width: 330px;
-      margin: -2rem auto 0;
+      position: absolute;
+      right: clamp(-3.2rem, -8vw, -1.2rem);
+      bottom: clamp(1.2rem, 7vw, 3rem);
+      width: clamp(9rem, 36vw, 13rem);
+      opacity: .78;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-orbit span {
+      font-size: clamp(5.2rem, 25vw, 8rem);
+    }
+
+    .orbit {
+      inset: 9%;
+    }
+
+    .orbit-two {
+      inset: 17% 1%;
+    }
+
+    .section-heading {
+      align-items: start;
+      gap: 1rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .section-heading a {
+      white-space: nowrap;
     }
 
     .home-note {
       grid-template-columns: 1fr;
       gap: .25rem;
+      padding-inline: 1.5rem;
     }
 
     .article-card.featured {

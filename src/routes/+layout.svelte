@@ -26,17 +26,20 @@
   <header class="site-header">
     <a class="brand" href="/" aria-label="Gestalt.forum — главная">
       <span class="brand-mark">G.</span>
-      <span>{data.siteName}</span>
+      <span class="brand-name">{data.siteName}</span>
     </a>
 
     <button
       class="menu-button"
       type="button"
       aria-expanded={menuOpen}
-      aria-label="Открыть меню"
+      aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
       onclick={() => (menuOpen = !menuOpen)}
     >
-      {menuOpen ? 'Закрыть' : 'Меню'}
+      <span class="menu-glyph" class:open={menuOpen} aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
     </button>
 
     <nav class:open={menuOpen} aria-label="Главная навигация">
@@ -68,7 +71,7 @@
 {#if !page.url.pathname.startsWith('/admin')}
   <footer class="site-footer">
     <div>
-      <a class="brand footer-brand" href="/"><span class="brand-mark">G.</span> Gestalt.forum</a>
+      <a class="brand footer-brand" href="/"><span class="brand-mark">G.</span><span class="brand-name">Gestalt.forum</span></a>
       <p>Практика внимания к человеку.</p>
     </div>
     <div class="footer-links">

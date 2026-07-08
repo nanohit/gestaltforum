@@ -78,34 +78,123 @@
 
 <style>
   .lounge-hero {
-    padding: clamp(4rem, 10vw, 9rem) max(1.5rem, calc((100vw - 1180px) / 2));
+    padding: clamp(3.5rem, 7vw, 6.5rem) max(1.5rem, calc((100vw - 1180px) / 2));
     display: grid;
-    grid-template-columns: 1fr .8fr;
-    align-items: end;
-    gap: 3rem;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 520px);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
     background: var(--forest);
     color: #f6efe5;
   }
+
   .lounge-hero .eyebrow { color: #e8a08a; }
-  .lounge-layout { display: grid; grid-template-columns: 1fr 360px; gap: 3rem; align-items: start; }
-  aside { position: sticky; top: 2rem; }
-  .thread-list { border-top: 1px solid var(--line); }
+
+  .lounge-hero .lede {
+    color: rgba(246, 239, 229, .78);
+    margin: 0;
+    max-width: 17em;
+  }
+
+  .lounge-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    gap: clamp(1.8rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  .lounge-layout > * {
+    min-width: 0;
+  }
+
+  aside {
+    position: sticky;
+    top: 2rem;
+    min-width: 0;
+  }
+
+  aside .form-card {
+    width: 100%;
+    max-width: none;
+    padding: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  aside .form-card h2 {
+    margin: 0 0 .75rem;
+    font-size: clamp(2rem, 3.2vw, 2.8rem);
+    line-height: 1.02;
+  }
+
+  aside .button,
+  aside button {
+    width: 100%;
+  }
+
+  .thread-list {
+    border-top: 1px solid var(--line);
+    min-width: 0;
+  }
+
   .thread-list > a {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 2rem;
+    gap: clamp(1rem, 3vw, 2rem);
     padding: 1.7rem 0;
     border-bottom: 1px solid var(--line);
     text-decoration: none;
   }
+
   .thread-list h2 { margin: 0 0 .5rem; font-size: clamp(1.5rem, 3vw, 2.2rem); }
   .thread-list a:hover h2 { color: var(--accent); }
   .thread-list p { margin: 0; color: var(--muted); font-size: .82rem; }
   .thread-meta { min-width: 110px; text-align: right; display: grid; }
   .thread-meta strong { font-family: Georgia, serif; font-size: 2rem; }
   .thread-meta span, .thread-meta small { color: var(--muted); font-size: .72rem; }
-  @media (max-width: 820px) {
-    .lounge-hero, .lounge-layout { grid-template-columns: 1fr; }
-    aside { position: static; order: -1; }
+
+  .thread-list .empty-state {
+    padding: clamp(3rem, 8vw, 5rem) 1rem;
+    background:
+      linear-gradient(135deg, rgba(255,253,248,.55), rgba(233,225,211,.25));
+  }
+
+  @media (max-width: 920px) {
+    .lounge-hero {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .lounge-hero .lede {
+      max-width: 26rem;
+    }
+
+    .lounge-layout {
+      grid-template-columns: 1fr;
+    }
+
+    aside {
+      position: static;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .lounge-hero {
+      padding: 3.4rem 1.5rem 4rem;
+    }
+
+    .thread-list > a {
+      grid-template-columns: 1fr;
+    }
+
+    .thread-meta {
+      min-width: 0;
+      text-align: left;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .thread-meta strong {
+      font-size: 1.5rem;
+    }
   }
 </style>

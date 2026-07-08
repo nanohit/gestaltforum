@@ -12,7 +12,7 @@ const databasePath = migrate();
 if (process.env.SEED_ADMIN_EMAIL && process.env.SEED_ADMIN_PASSWORD) {
   const sqlite = new Database(databasePath);
   const email = process.env.SEED_ADMIN_EMAIL.trim().toLowerCase();
-  const existing = sqlite.prepare('SELECT id FROM users WHERE email = ?').get(email);
+  const existing = sqlite.prepare('SELECT id, role FROM users WHERE email = ?').get(email);
   if (!existing) {
     const passwordHash = await argon2.hash(process.env.SEED_ADMIN_PASSWORD, {
       type: argon2.argon2id,
@@ -27,6 +27,11 @@ if (process.env.SEED_ADMIN_EMAIL && process.env.SEED_ADMIN_PASSWORD) {
       `)
       .run(email, process.env.SEED_ADMIN_PHONE || '+70000000000', passwordHash);
     console.log(`Bootstrap administrator created: ${email}`);
+  } else if (existing.role !== 'admin') {
+    sqlite
+      .prepare("UPDATE users SET role = 'admin', status = 'active' WHERE id = ?")
+      .run(existing.id);
+    console.log(`Bootstrap administrator promoted: ${email}`);
   }
   sqlite.close();
 }
