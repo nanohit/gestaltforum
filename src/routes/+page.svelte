@@ -261,8 +261,8 @@
     .hero {
       grid-template-columns: 1fr;
       min-height: auto;
-      padding: clamp(4rem, 13vw, 5.8rem) 1.5rem clamp(6rem, 22vw, 8rem);
-      gap: 1.8rem;
+      padding: clamp(4rem, 13vw, 5.8rem) 1.5rem clamp(4.8rem, 16vw, 6rem);
+      gap: 1.35rem;
     }
 
     .hero h1 {
@@ -275,17 +275,19 @@
     }
 
     .hero-orbit {
-      position: absolute;
-      right: clamp(-3.2rem, -8vw, -1.2rem);
-      bottom: clamp(1.2rem, 7vw, 3rem);
-      width: clamp(9rem, 36vw, 13rem);
-      opacity: .78;
+      position: relative;
+      right: auto;
+      bottom: auto;
+      width: clamp(8.25rem, 32vw, 11.5rem);
+      margin-top: .25rem;
+      justify-self: end;
+      opacity: 1;
       z-index: 1;
       pointer-events: none;
     }
 
     .hero-orbit span {
-      font-size: clamp(5.2rem, 25vw, 8rem);
+      font-size: clamp(4.8rem, 23vw, 7rem);
     }
 
     .orbit {

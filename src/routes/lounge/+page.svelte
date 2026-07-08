@@ -97,7 +97,7 @@
 
   .lounge-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
     gap: clamp(1.8rem, 4vw, 3rem);
     align-items: start;
   }
@@ -120,8 +120,11 @@
 
   aside .form-card h2 {
     margin: 0 0 .75rem;
-    font-size: clamp(2rem, 3.2vw, 2.8rem);
-    line-height: 1.02;
+    font-size: clamp(1.85rem, 2.2vw, 2.25rem);
+    line-height: 1.08;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
   }
 
   aside .button,

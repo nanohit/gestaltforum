@@ -25,7 +25,7 @@
 {#if !page.url.pathname.startsWith('/admin')}
   <header class="site-header">
     <a class="brand" href="/" aria-label="Gestalt.forum — главная">
-      <span class="brand-mark">G.</span>
+      <span class="brand-mark"><span>G</span></span>
       <span class="brand-name">{data.siteName}</span>
     </a>
 
@@ -71,7 +71,7 @@
 {#if !page.url.pathname.startsWith('/admin')}
   <footer class="site-footer">
     <div>
-      <a class="brand footer-brand" href="/"><span class="brand-mark">G.</span><span class="brand-name">Gestalt.forum</span></a>
+      <a class="brand footer-brand" href="/"><span class="brand-mark"><span>G</span></span><span class="brand-name">Gestalt.forum</span></a>
       <p>Практика внимания к человеку.</p>
     </div>
     <div class="footer-links">

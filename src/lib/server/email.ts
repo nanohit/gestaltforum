@@ -84,7 +84,7 @@ function registrationCodeHtml(input: { firstName: string; code: string; ttl: num
                         <div style="font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; color:#716f66; text-transform:uppercase; letter-spacing:.16em; font-size:11px; font-weight:700; margin-bottom:10px;">
                           Ваш код
                         </div>
-                        <div style="font-family:Georgia, 'Times New Roman', serif; font-size:48px; line-height:1; letter-spacing:.18em; font-weight:700; color:#b3442b;">
+                        <div style="font-family:'SFMono-Regular', 'Roboto Mono', 'Menlo', 'Consolas', 'Courier New', monospace; font-size:46px; line-height:1; letter-spacing:.1em; font-weight:700; font-variant-numeric:tabular-nums; color:#b3442b; white-space:nowrap;">
                           ${code}
                         </div>
                       </div>
