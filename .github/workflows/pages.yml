@@ -32,7 +32,7 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: |
           npm run build:edge
-          supabase functions deploy gestalt-api --project-ref qqxijzdjhkgbildekjdb --no-verify-jwt --use-api
+          supabase functions deploy gestalt-api --project-ref qqxijzdjhkgbildekjdb --no-verify-jwt --use-api --yes
       - uses: actions/configure-pages@v5
         id: pages
       - name: Build website
