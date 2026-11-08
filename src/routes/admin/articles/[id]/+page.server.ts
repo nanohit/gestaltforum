@@ -62,10 +62,10 @@ export const actions: Actions = {
     let bodyJson: string;
     try {
       const blocks = parseArticleBody(parsed.data.bodyJson);
-      if (!blocks.length) return fail(400, { error: 'В body JSON должен быть хотя бы один текстовый блок.' });
+      if (!blocks.length) return fail(400, { error: 'Добавьте текст материала.' });
       bodyJson = JSON.stringify(blocks);
     } catch {
-      return fail(400, { error: 'Body JSON некорректен.' });
+      return fail(400, { error: 'Не удалось прочитать текст материала.' });
     }
     const bodyText = articleBodyText(bodyJson);
     const commentsEnabled = data.get('commentsEnabled') === 'on' ? 1 : 0;

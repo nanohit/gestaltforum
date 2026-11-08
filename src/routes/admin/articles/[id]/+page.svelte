@@ -1,17 +1,8 @@
 <script lang="ts">
+  import ArticleEditor from '$lib/components/ArticleEditor.svelte';
   import { sitePath } from '$lib/site-path';
   let { data, form }: { data: any; form: any } = $props();
 
-  const starterBody = JSON.stringify(
-    [
-      { id: 'p-1', type: 'lead', text: 'Лид материала.' },
-      { id: 'p-2', type: 'paragraph', text: 'Первый абзац.' },
-      { id: 'p-3', type: 'heading', text: 'Подзаголовок' },
-      { id: 'p-4', type: 'paragraph', text: 'Продолжение текста.' }
-    ],
-    null,
-    2
-  );
 </script>
 
 <svelte:head><title>{data.isNew ? 'Новый материал' : data.article.title} — Редакция</title></svelte:head>
@@ -34,11 +25,9 @@
       <label><span>Заголовок</span><input class="title-input" name="title" value={data.article?.title ?? ''} maxlength="300" required /></label>
       <label><span>Подзаголовок</span><textarea class="small-textarea" name="subtitle" maxlength="500">{data.article?.subtitle ?? ''}</textarea></label>
       <label><span>Аннотация</span><textarea name="abstract" maxlength="3000" minlength="10" required>{data.article?.abstract ?? ''}</textarea></label>
-      <label>
-        <span>Body JSON</span>
-        <textarea class="body-json" name="bodyJson" required>{data.article?.body_json ?? starterBody}</textarea>
-        <small>Блоки: paragraph, lead, heading, quote, list, image (src/alt/text). У каждого блока нужен стабильный id для читательских пометок.</small>
-      </label>
+      {#key data.article?.id ?? 'new'}
+        <ArticleEditor initialBody={data.article?.body_json ?? '[]'} />
+      {/key}
     </section>
 
     <aside>
@@ -82,7 +71,6 @@
   .main-fields { display: grid; gap: 1.4rem; }
   .title-input { font-family: Georgia, serif; font-size: 2rem; }
   .small-textarea { min-height: 5rem; }
-  .body-json { min-height: 46rem; font: .85rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
   aside { display: grid; gap: 1rem; position: sticky; top: 1rem; }
   .side-card { display: grid; gap: .9rem; padding: 1.2rem; border: 1px solid var(--line); background: white; }
   .side-card h2 { margin: 0; font-size: 1.5rem; }
