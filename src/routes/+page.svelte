@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data }: { data: any } = $props();
   const hero = $derived(data.blocks.find((block: any) => block.type === 'hero')?.payload ?? {});
   const note = $derived(data.blocks.find((block: any) => block.type === 'note')?.payload ?? {});
@@ -20,7 +21,7 @@
     <p class="eyebrow">{hero.eyebrow ?? 'Независимый журнал'}</p>
     <h1>{hero.title ?? 'Практика внимания к человеку'}</h1>
     <p class="lede">{hero.text ?? ''}</p>
-    <a class="button" href={String(hero.href ?? '/materials')}>{hero.cta ?? 'Читать материалы'}</a>
+    <a class="button" href={sitePath(String(hero.href ?? '/materials'))}>{hero.cta ?? 'Читать материалы'}</a>
   </div>
   <div class="hero-orbit" aria-hidden="true">
     <div class="orbit orbit-one"></div>
@@ -43,7 +44,7 @@
       <p class="eyebrow">Свежие тексты</p>
       <h2>Материалы</h2>
     </div>
-    <a href="/materials">Смотреть все →</a>
+    <a href={sitePath("/materials")}>Смотреть все →</a>
   </div>
 
   <div class="card-grid">
@@ -54,7 +55,7 @@
           {#if article.published_at}<span>{formatDate(article.published_at)}</span>{/if}
           {#if article.access === 'subscribers'}<span class="tag">По подписке</span>{/if}
         </div>
-        <a class="stretched" href={`/materials/${article.slug}`}>
+        <a class="stretched" href={sitePath(`/materials/${article.slug}`)}>
           <h3>{article.title}</h3>
         </a>
         {#if article.subtitle}<p class="subtitle">{article.subtitle}</p>{/if}
@@ -75,14 +76,14 @@
       <h2>{data.latestVolume.title}</h2>
       <p>{data.latestVolume.article_count} материалов · {formatDate(data.latestVolume.published_at)}</p>
     </div>
-    <a class="button secondary" href={`/volumes/${data.latestVolume.id}`}>Открыть выпуск</a>
+    <a class="button secondary" href={sitePath(`/volumes/${data.latestVolume.id}`)}>Открыть выпуск</a>
   </section>
 {/if}
 
 <section class="manifesto">
   <p>Не новости. Не советы.</p>
   <h2>Место, где мысль может не торопиться.</h2>
-  <a href="/submission">Предложить материал →</a>
+  <a href={sitePath("/submission")}>Предложить материал →</a>
 </section>
 
 <style>

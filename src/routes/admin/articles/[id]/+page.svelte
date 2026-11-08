@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data, form }: { data: any; form: any } = $props();
 
   const starterBody = JSON.stringify(
@@ -18,11 +19,11 @@
 <div class="editor-page">
   <header>
     <div>
-      <a href="/admin#articles">← К материалам</a>
+      <a href={sitePath("/admin#articles")}>← К материалам</a>
       <p class="eyebrow">{data.isNew ? 'Новый материал' : `Материал #${data.article.id}`}</p>
       <h1>{data.isNew ? 'Собрать текст' : data.article.title}</h1>
     </div>
-    {#if !data.isNew}<a class="button secondary" href={`/materials/${data.article.slug}`}>Предпросмотр ↗</a>{/if}
+    {#if !data.isNew}<a class="button secondary" href={sitePath(`/materials/${data.article.slug}`)}>Предпросмотр ↗</a>{/if}
   </header>
 
   {#if form?.error}<p class="error">{form.error}</p>{/if}

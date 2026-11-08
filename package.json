@@ -12,7 +12,11 @@
     "migrate": "node scripts/migrate.js",
     "seed": "node scripts/seed.js",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:pages": "node scripts/build-browser.mjs && DEPLOY_TARGET=pages svelte-kit sync && VITE_GESTALT_API_URL=https://qqxijzdjhkgbildekjdb.supabase.co/functions/v1/gestalt-api DEPLOY_TARGET=pages vite build && node scripts/pages-shells.mjs",
+    "check:pages": "node scripts/build-browser.mjs && DEPLOY_TARGET=pages svelte-kit sync && DEPLOY_TARGET=pages svelte-check --tsconfig ./tsconfig.pages.json",
+    "export:pages": "node scripts/export-pages.js",
+    "build:edge": "node scripts/build-edge.mjs"
   },
   "dependencies": {
     "@sveltejs/adapter-node": "5.5.6",
@@ -26,6 +30,7 @@
     "zod": "^4.3.5"
   },
   "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.11",
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.0.3",

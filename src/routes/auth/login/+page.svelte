@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data, form }: { data: any; form: any } = $props();
 </script>
 
@@ -28,7 +29,7 @@
         <input type="password" name="password" autocomplete="current-password" required />
       </label>
       <button type="submit">Войти</button>
-      <p class="muted">Ещё нет аккаунта? <a href="/auth/register">Зарегистрироваться</a></p>
+      <p class="muted">Ещё нет аккаунта? <a href={sitePath("/auth/register")}>Зарегистрироваться</a></p>
     </form>
   </div>
 </section>

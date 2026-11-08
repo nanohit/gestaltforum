@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { children } = $props();
   const links = [
     ['#overview', 'Обзор'],
@@ -14,11 +15,11 @@
 
 <div class="admin-frame">
   <aside class="admin-sidebar">
-    <a class="admin-brand" href="/admin">Редакция</a>
+    <a class="admin-brand" href={sitePath("/admin")}>Редакция</a>
     <nav>
-      {#each links as link}<a href={`/admin${link[0]}`}>{link[1]}</a>{/each}
+      {#each links as link}<a href={sitePath(`/admin${link[0]}`)}>{link[1]}</a>{/each}
     </nav>
-    <a href="/">← На сайт</a>
+    <a href={sitePath("/")}>← На сайт</a>
   </aside>
   <div class="admin-content">
     {@render children()}

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { apiFetch } from '$lib/client-api.svelte';
+  import { sitePath } from '$lib/site-path';
   import ArticleReader from '$lib/components/ArticleReader.svelte';
 
   let { data }: { data: any } = $props();
@@ -16,7 +18,7 @@
 
   async function toggleFavorite(kind: 'fav' | 'read_later') {
     const active = favoriteKinds.includes(kind);
-    const response = await fetch('/api/favorites', {
+    const response = await apiFetch('/api/favorites', {
       method: active ? 'DELETE' : 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ articleId: data.article.id, kind })
@@ -30,7 +32,7 @@
 
   async function submitComment(event: SubmitEvent) {
     event.preventDefault();
-    const response = await fetch('/api/comments', {
+    const response = await apiFetch('/api/comments', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ target: 'article', targetId: data.article.id, body: commentBody })
@@ -50,7 +52,7 @@
   <header class="article-header">
     <div class="meta-row">
       {#if data.article.volume_number}
-        <a href={`/volumes/${data.article.volume_id}`}>Выпуск {data.article.volume_number}</a>
+        <a href={sitePath(`/volumes/${data.article.volume_id}`)}>Выпуск {data.article.volume_number}</a>
       {/if}
       <span>{formatDate(data.article.published_at)}</span>
       {#if data.article.access === 'subscribers'}<span class="tag">По подписке</span>{/if}
@@ -89,9 +91,9 @@
       <h2>Продолжение доступно подписчикам</h2>
       <p>Подписка открывает полный архив, выделения, заметки и участие в разговоре.</p>
       {#if data.user}
-        <a class="button" href="/account#subscription">Выбрать подписку</a>
+        <a class="button" href={sitePath("/account#subscription")}>Выбрать подписку</a>
       {:else}
-        <a class="button" href={`/auth/login?next=/materials/${data.article.slug}`}>Войти и продолжить</a>
+        <a class="button" href={sitePath(`/auth/login?next=/materials/${data.article.slug}`)}>Войти и продолжить</a>
       {/if}
     </section>
   {:else}
@@ -106,7 +108,7 @@
   {/if}
 </article>
 
-{#if !data.locked && data.article.comments_enabled}
+{#if !data.staticSite && !data.locked && data.article.comments_enabled}
   <section class="comments-section narrow">
     <p class="eyebrow">Разговор после текста</p>
     <h2>Комментарии</h2>
@@ -136,7 +138,7 @@
         {#if feedback}<p class="muted">{feedback}</p>{/if}
       </form>
     {:else}
-      <p><a href={`/auth/login?next=/materials/${data.article.slug}`}>Войдите</a>, чтобы оставить комментарий.</p>
+      <p><a href={sitePath(`/auth/login?next=/materials/${data.article.slug}`)}>Войдите</a>, чтобы оставить комментарий.</p>
     {/if}
   </section>
 {/if}

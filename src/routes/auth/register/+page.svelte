@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { form }: { form: any } = $props();
   let isVerifying = $derived(form?.step === 'verify');
   let values = $derived(form?.values ?? {});
@@ -64,7 +65,7 @@
       </label>
       <button type="submit" formaction="?/sendCode">Получить код</button>
     {/if}
-    <p class="muted">Уже зарегистрированы? <a href="/auth/login">Войти</a></p>
+    <p class="muted">Уже зарегистрированы? <a href={sitePath("/auth/login")}>Войти</a></p>
   </form>
 </section>
 

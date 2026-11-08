@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/browser/**/*.ts",
+    "src/**/*.svelte",
+    "src/lib/**/*.ts",
+    "src/app.d.ts",
+    "src/params/**/*.ts",
+    ".svelte-kit/ambient.d.ts",
+    ".svelte-kit/non-ambient.d.ts",
+    ".svelte-kit/env.d.ts"
+  ],
+  "exclude": [
+    "src/routes/**/*.ts",
+    "src/hooks.server.ts",
+    "node_modules",
+    "build",
+    "build-pages",
+    "supabase"
+  ]
+}

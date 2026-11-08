@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data, form }: { data: any; form: any } = $props();
 </script>
 
@@ -15,7 +16,7 @@
       <p class="eyebrow">Получено</p>
       <h2>Обращение №{form.ticketId} создано</h2>
       <p>Спасибо. Статус можно увидеть в личном кабинете.</p>
-      <a class="button" href="/account#payments">В кабинет</a>
+      <a class="button" href={sitePath("/account#payments")}>В кабинет</a>
     </div>
   {:else}
     <form method="POST" class="form-card">

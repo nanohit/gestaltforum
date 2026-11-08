@@ -1,0 +1,80 @@
+name: Publish website
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run check:pages
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Deploy backend
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          npm run build:edge
+          supabase functions deploy gestalt-api --project-ref qqxijzdjhkgbildekjdb --no-verify-jwt --use-api
+      - uses: actions/configure-pages@v5
+        id: pages
+      - name: Build website
+        env:
+          PAGES_BASE: ${{ steps.pages.outputs.base_path }}
+          CDN_TAG: pages-${{ github.run_id }}-${{ github.run_attempt }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          export PAGES_ASSETS="https://cdn.jsdelivr.net/gh/${REPOSITORY}@${CDN_TAG}"
+          npm run build:pages
+      - name: Publish immutable CDN assets through git
+        env:
+          CDN_TAG: pages-${{ github.run_id }}-${{ github.run_attempt }}
+          REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          asset_dir="${RUNNER_TEMP}/cdn-assets"
+          mkdir -p "$asset_dir"
+          cp -R build-pages/_app "$asset_dir/_app"
+          if [ -d build-pages/uploads ]; then cp -R build-pages/uploads "$asset_dir/uploads"; fi
+          git -C "$asset_dir" init
+          git -C "$asset_dir" config user.name github-actions[bot]
+          git -C "$asset_dir" config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git -C "$asset_dir" add .
+          git -C "$asset_dir" commit -m "CDN assets for ${GITHUB_SHA}"
+          gh auth setup-git
+          git -C "$asset_dir" push "https://github.com/${REPOSITORY}.git" "HEAD:refs/tags/${CDN_TAG}"
+          asset_file=$(find "$asset_dir/_app/immutable/entry" -name 'start.*.js' -print -quit)
+          asset_path="${asset_file#"$asset_dir"/}"
+          curl --fail --retry 4 --retry-delay 5 --retry-all-errors "https://cdn.jsdelivr.net/gh/${REPOSITORY}@${CDN_TAG}/${asset_path}" --output /dev/null
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: build-pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

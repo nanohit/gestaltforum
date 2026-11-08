@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data }: { data: any } = $props();
   const formatDate = (value: string | null) =>
     value ? new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' }).format(new Date(value)) : '';
@@ -13,7 +14,7 @@
 
   <div class="volume-list">
     {#each data.volumes as volume}
-      <a href={`/volumes/${volume.id}`}>
+      <a href={sitePath(`/volumes/${volume.id}`)}>
         <span class="number">№ {volume.number}</span>
         <span>
           <strong>{volume.title}</strong>

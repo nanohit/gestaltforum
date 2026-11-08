@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { apiFetch } from '$lib/client-api.svelte';
+  import { sitePath } from '$lib/site-path';
   import { onMount } from 'svelte';
 
   let { data }: { data: any } = $props();
@@ -17,7 +19,7 @@
     }).format(new Date(value));
 
   async function refresh() {
-    const response = await fetch(`/api/lounge/posts?threadId=${data.thread.id}`);
+    const response = await apiFetch(`/api/lounge/posts?threadId=${data.thread.id}`);
     if (response.ok) {
       const result = await response.json();
       posts = result.posts;
@@ -27,7 +29,7 @@
   async function submitPost(event: SubmitEvent) {
     event.preventDefault();
     sending = true;
-    const response = await fetch('/api/lounge/posts', {
+    const response = await apiFetch('/api/lounge/posts', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ threadId: data.thread.id, body })
@@ -43,7 +45,7 @@
 
   async function reportPost(id: number) {
     if (!confirm('Отправить сообщение модератору?')) return;
-    const response = await fetch('/api/lounge/posts', {
+    const response = await apiFetch('/api/lounge/posts', {
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ id })
@@ -60,7 +62,7 @@
 <svelte:head><title>{data.thread.title} — Курилка — Gestalt.forum</title></svelte:head>
 
 <section class="thread-header">
-  <a href="/lounge">← Все темы</a>
+  <a href={sitePath("/lounge")}>← Все темы</a>
   <p class="eyebrow">Курилка</p>
   <h1>{data.thread.title}</h1>
   <p>Начал разговор: {data.thread.first_name} {data.thread.last_name}</p>
@@ -92,7 +94,7 @@
       {#if message}<p class="muted">{message}</p>{/if}
     </form>
   {:else}
-    <div class="notice"><a href={`/auth/login?next=/lounge/${data.thread.id}`}>Войдите</a>, чтобы ответить.</div>
+    <div class="notice"><a href={sitePath(`/auth/login?next=/lounge/${data.thread.id}`)}>Войдите</a>, чтобы ответить.</div>
   {/if}
 </section>
 

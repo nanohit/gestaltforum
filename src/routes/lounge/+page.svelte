@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { apiFetch } from '$lib/client-api.svelte';
+  import { sitePath } from '$lib/site-path';
   let { data }: { data: any } = $props();
   // svelte-ignore state_referenced_locally
   let threads = $state<any[]>([...data.threads]);
@@ -13,7 +15,7 @@
   async function createThread(event: SubmitEvent) {
     event.preventDefault();
     creating = true;
-    const response = await fetch('/api/lounge/threads', {
+    const response = await apiFetch('/api/lounge/threads', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ title, body })
@@ -24,7 +26,7 @@
       message = result.message || 'Не удалось создать тему';
       return;
     }
-    window.location.href = `/lounge/${result.threadId}`;
+    window.location.href = sitePath(`/lounge/${result.threadId}`);
   }
 </script>
 
@@ -41,7 +43,7 @@
 <section class="page-shell lounge-layout">
   <div class="thread-list">
     {#each threads as thread}
-      <a href={`/lounge/${thread.id}`}>
+      <a href={sitePath(`/lounge/${thread.id}`)}>
         <div>
           <h2>{thread.title}</h2>
           <p>{thread.first_name} {thread.last_name}</p>
@@ -70,7 +72,7 @@
       <div class="form-card">
         <h2>Присоединиться</h2>
         <p>Для новой темы или ответа нужен аккаунт.</p>
-        <a class="button" href="/auth/login?next=/lounge">Войти</a>
+        <a class="button" href={sitePath("/auth/login?next=/lounge")}>Войти</a>
       </div>
     {/if}
   </aside>

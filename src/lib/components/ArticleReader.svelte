@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { apiFetch } from '$lib/client-api.svelte';
   import { onMount, tick } from 'svelte';
   import type { Annotation, ArticleBlock } from '$lib/types';
 
@@ -175,7 +176,7 @@
     if (!selection) return;
     let note = '';
     if (type === 'note') note = window.prompt('Заметка к выделению')?.trim() || '';
-    const response = await fetch('/api/annotations', {
+    const response = await apiFetch('/api/annotations', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -205,7 +206,7 @@
   }
 
   async function deleteAnnotation(id: number) {
-    const response = await fetch('/api/annotations', {
+    const response = await apiFetch('/api/annotations', {
       method: 'DELETE',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ id })

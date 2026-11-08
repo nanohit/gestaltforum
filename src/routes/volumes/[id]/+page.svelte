@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data }: { data: any } = $props();
 </script>
 
@@ -19,7 +20,7 @@
           {#if article.access === 'subscribers'}<span class="tag">По подписке</span>{/if}
           {#if article.authors}<span>{article.authors}</span>{/if}
         </div>
-        <a href={`/materials/${article.slug}`}><h2>{article.title}</h2></a>
+        <a href={sitePath(`/materials/${article.slug}`)}><h2>{article.title}</h2></a>
         <p>{article.abstract}</p>
       </div>
     </article>

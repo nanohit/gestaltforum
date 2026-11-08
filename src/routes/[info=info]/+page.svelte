@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data }: { data: any } = $props();
 </script>
 
@@ -30,14 +31,14 @@
     {#if data.page.slug === 'editors'}
       <div class="content">
         <p class="lede">Мы собираем редакцию. Имена и области ответственности появятся здесь после запуска первого выпуска.</p>
-        <p>По вопросам сотрудничества напишите через <a href="/support">форму поддержки</a>.</p>
+        <p>По вопросам сотрудничества напишите через <a href={sitePath("/support")}>форму поддержки</a>.</p>
       </div>
     {:else if data.page.slug === 'submission'}
       <div class="content">
         <p class="lede">Мы принимаем оригинальные эссе, исследования практики, рецензии и переводы.</p>
         <h2>Как предложить текст</h2>
         <p>Опишите идею, предполагаемый объём и коротко расскажите о себе через форму поддержки. Редакция ответит и предложит следующий шаг.</p>
-        <a class="button" href="/support?subject=Предложение материала">Предложить материал</a>
+        <a class="button" href={sitePath("/support?subject=Предложение материала")}>Предложить материал</a>
       </div>
     {:else}
       <div class="content"><p class="muted">Редакция пока не добавила содержимое этой страницы.</p></div>

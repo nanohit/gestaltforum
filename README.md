@@ -2,7 +2,9 @@
 
 MVP независимого журнала и читательского сообщества: SvelteKit 2 / Svelte 5, TypeScript, adapter-node, SQLite (WAL + FTS5), better-sqlite3 и Drizzle.
 
-Проект рассчитан на один процесс Render Starter с 512 МБ RAM, 0.5 vCPU и постоянным диском `/var/data`.
+Текущий хостинг: **GitHub Pages + jsDelivr + Supabase**. Инструкция по публикации и переносу данных: [docs/github-pages.md](docs/github-pages.md).
+
+Исходный Node/SQLite режим сохранён для локальной разработки и восстановления старых данных.
 
 ## Быстрый старт
 
@@ -68,7 +70,7 @@ npm start         # migration + adapter-node server
 | `CLOUDPAYMENTS_WEBHOOK_SECRET` | Secret для HMAC webhook; fallback на API Secret |
 | `BACKUP_S3_*` | Опциональная off-site копия в S3-compatible storage |
 
-## Production
+## Старый режим Render
 
 1. Создайте сервис через `render.yaml`.
 2. Укажите `ORIGIN=https://ваш-домен`.

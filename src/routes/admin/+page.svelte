@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { apiFetch } from '$lib/client-api.svelte';
+  import { sitePath } from '$lib/site-path';
   let { data, form }: { data: any; form: any } = $props();
   const formatDate = (value: string | null) =>
     value ? new Intl.DateTimeFormat('ru-RU', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)) : '—';
@@ -10,7 +12,7 @@
   async function uploadImage(event: SubmitEvent) {
     event.preventDefault();
     const formElement = event.currentTarget as HTMLFormElement;
-    const response = await fetch('/api/admin/uploads', {
+    const response = await apiFetch('/api/admin/uploads', {
       method: 'POST',
       body: new FormData(formElement)
     });
@@ -46,7 +48,7 @@
   <section id="articles" class="admin-section">
     <div class="section-title">
       <div><p class="eyebrow">Контент</p><h2>Материалы</h2></div>
-      <a class="button" href="/admin/articles/new">Новый материал</a>
+      <a class="button" href={sitePath("/admin/articles/new")}>Новый материал</a>
     </div>
     <div class="table-wrap">
       <table>
@@ -54,7 +56,7 @@
         <tbody>
           {#each data.articles as article}
             <tr>
-              <td><a href={`/admin/articles/${article.id}`}><strong>{article.title}</strong></a><br /><small>{article.slug}</small></td>
+              <td><a href={sitePath(`/admin/articles/${article.id}`)}><strong>{article.title}</strong></a><br /><small>{article.slug}</small></td>
               <td>
                 <form method="POST" action="?/articleState" class="inline-form">
                   <input type="hidden" name="id" value={article.id} />
@@ -71,7 +73,7 @@
                   <button class="mini secondary" type="submit">{article.comments_enabled ? 'Включены' : 'Выключены'}</button>
                 </form>
               </td>
-              <td><a href={`/materials/${article.slug}`}>↗</a></td>
+              <td><a href={sitePath(`/materials/${article.slug}`)}>↗</a></td>
             </tr>
           {/each}
         </tbody>
@@ -260,7 +262,7 @@
         <form method="POST" action="?/backup"><button type="submit">Создать backup</button></form>
         <div class="backup-list">
           {#each data.backups as backup}
-            <a href={`/admin/backups/${backup.name}`}><span>{backup.name}</span><small>{formatBytes(backup.size)} · {formatDate(backup.createdAt)}</small></a>
+            <a href={sitePath(`/admin/backups/${backup.name}`)}><span>{backup.name}</span><small>{formatBytes(backup.size)} · {formatDate(backup.createdAt)}</small></a>
           {:else}<p class="muted">Копий пока нет.</p>{/each}
         </div>
         <h3>Загрузки</h3>

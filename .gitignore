@@ -6,3 +6,9 @@ build
 .DS_Store
 coverage
 *.log
+build-pages
+
+src/browser
+supabase/.temp
+supabase/functions/gestalt-api/server
+supabase/functions/gestalt-api/routes.ts

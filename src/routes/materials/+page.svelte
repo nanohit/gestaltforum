@@ -1,11 +1,14 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   let { data }: { data: any } = $props();
+  const query = $derived(data.query);
+  const articles = $derived(data.articles);
   const formatDate = (value: string | null) =>
     value ? new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(value)) : '';
 </script>
 
 <svelte:head>
-  <title>{data.query ? `Поиск: ${data.query}` : 'Материалы'} — Gestalt.forum</title>
+  <title>{query ? `Поиск: ${query}` : 'Материалы'} — Gestalt.forum</title>
 </svelte:head>
 
 <section class="page-shell">
@@ -18,20 +21,20 @@
       <label>
         <span>Поиск по текстам</span>
         <div class="search-row">
-          <input name="q" value={data.query} placeholder="Тема, автор, понятие…" maxlength="120" />
+          <input name="q" value={query} placeholder="Тема, автор, понятие…" maxlength="120" />
           <button type="submit">Найти</button>
         </div>
       </label>
     </form>
   </header>
 
-  {#if data.query}
-    <p class="result-note">Результаты по запросу «{data.query}»: {data.articles.length}</p>
+  {#if query}
+    <p class="result-note">Результаты по запросу «{query}»: {articles.length}</p>
   {/if}
 
-  {#if data.articles.length}
+  {#if articles.length}
     <div class="materials-list">
-      {#each data.articles as article, index}
+      {#each articles as article, index}
         <article>
           <div class="index">{String(index + 1).padStart(2, '0')}</div>
           <div class="article-copy">
@@ -40,12 +43,12 @@
               <span>{formatDate(article.published_at)}</span>
               {#if article.access === 'subscribers'}<span class="tag">По подписке</span>{/if}
             </div>
-            <a href={`/materials/${article.slug}`}><h2>{article.title}</h2></a>
+            <a href={sitePath(`/materials/${article.slug}`)}><h2>{article.title}</h2></a>
             {#if article.subtitle}<p class="subtitle">{article.subtitle}</p>{/if}
             <p class="abstract">{article.abstract}</p>
             {#if article.authors}<p class="authors">{article.authors}</p>{/if}
           </div>
-          <a class="arrow" aria-label={`Открыть ${article.title}`} href={`/materials/${article.slug}`}>↗</a>
+          <a class="arrow" aria-label={`Открыть ${article.title}`} href={sitePath(`/materials/${article.slug}`)}>↗</a>
         </article>
       {/each}
     </div>
@@ -53,7 +56,7 @@
     <div class="empty-state">
       <h2>Ничего не нашлось</h2>
       <p>Попробуйте более короткий запрос или загляните в полный архив.</p>
-      <a href="/materials">Сбросить поиск</a>
+      <a href={sitePath("/materials")}>Сбросить поиск</a>
     </div>
   {/if}
 </section>

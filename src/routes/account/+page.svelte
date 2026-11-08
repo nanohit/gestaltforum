@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sitePath } from '$lib/site-path';
   import { onMount } from 'svelte';
 
   let { data, form }: { data: any; form: any } = $props();
@@ -85,7 +86,7 @@
       <p class="eyebrow">Личный кабинет</p>
       <h1>{data.profile.first_name}, это ваше пространство</h1>
     </div>
-    <form method="POST" action="/auth/logout">
+    <form method="POST" action={sitePath("/auth/logout")}>
       <button class="secondary" type="submit">Выйти</button>
     </form>
   </header>
@@ -137,7 +138,7 @@
         {#each data.favorites as favorite}
           <article>
             <span class="tag">{favorite.kind === 'fav' ? 'Избранное' : 'На потом'}</span>
-            <a href={`/materials/${favorite.slug}`}><h3>{favorite.title}</h3></a>
+            <a href={sitePath(`/materials/${favorite.slug}`)}><h3>{favorite.title}</h3></a>
             <p>{favorite.abstract}</p>
           </article>
         {/each}
@@ -156,7 +157,7 @@
       <div class="notes-list">
         {#each data.annotations as annotation}
           <article>
-            <a href={`/materials/${annotation.slug}`}><strong>{annotation.title}</strong></a>
+            <a href={sitePath(`/materials/${annotation.slug}`)}><strong>{annotation.title}</strong></a>
             <q>{annotation.quote}</q>
             {#if annotation.note}<p>{annotation.note}</p>{/if}
           </article>
@@ -227,7 +228,7 @@
         <p class="muted">Обращений пока нет.</p>
       {/each}
     </div>
-    <p><a href="/support">Написать в поддержку →</a></p>
+    <p><a href={sitePath("/support")}>Написать в поддержку →</a></p>
   </section>
 </section>
 
